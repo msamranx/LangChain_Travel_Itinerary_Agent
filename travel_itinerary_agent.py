@@ -130,34 +130,50 @@ def run_travel_planner(
 # ----------------------------------------------------------------------
 # CLI
 # ----------------------------------------------------------------------
+def get_input(prompt: str) -> str:
+    """Get user input and exit gracefully if the user wants to quit."""
+    value = input(prompt).strip()
+
+    if value.lower() in ("quit", "exit", "q"):
+        print("\nExiting Travel Planner. Goodbye!")
+        sys.exit(0)
+
+    return value
 
 def main() -> None:
-    #print("\nEMAIL HUMANIZER AGENT (LangChain + OpenAI)")
-    #print("Describe the email you want to write. Type 'quit' to exit.\n")
+    print("\nTRAVEL PLANNER AGENT (LangChain + OpenAI)")
+    print("Enter your travel details. Type 'quit' at any time to exit.\n")
 
     while True:
-        travel_destination = input("Your desired destination: ").strip()
-        travel_startdate = input("Your planned start date: ").strip()
-        travel_enddate = input("Your planned end date: ").strip()
-        travel_budget = input("Your approx budget: ").strip()
-        travel_interests = input("Your vacation interests: ").strip()
-        travel_pace = input("Your desired trip pace (slow/medium/fast): ").strip()
-        travel_groupsize = input("Your group size: ").strip()
-        travel_constraints = input("Any travel constraints: ").strip()
-
-        # if not travel_destination:
-            #continue
-        #if travel_destination.lower() in ("quit", "exit", "q"):
-         #   break
+        travel_destination = get_input("Your desired destination: ")
+        travel_startdate = get_input("Your planned start date: ")
+        travel_enddate = get_input("Your planned end date: ")
+        travel_budget = get_input("Your approx budget: ")
+        travel_interests = get_input("Your vacation interests: ")
+        travel_pace = get_input(
+            "Your desired trip pace (slow/medium/fast): "
+        )
+        travel_groupsize = get_input("Your group size: ")
+        travel_constraints = get_input("Any travel constraints: ")
 
         try:
-            dailyitinerary = run_travel_planner(travel_destination,travel_startdate,travel_enddate,travel_budget,travel_interests,travel_pace,travel_groupsize,travel_constraints)
+            dailyitinerary = run_travel_planner(
+                travel_destination,
+                travel_startdate,
+                travel_enddate,
+                travel_budget,
+                travel_interests,
+                travel_pace,
+                travel_groupsize,
+                travel_constraints
+            )
+
             print("\n" + "=" * 60)
             print(dailyitinerary)
             print("=" * 60 + "\n")
+
         except Exception as e:
             logger.error("Agent failed: %s", e)
-
 
 if __name__ == "__main__":
     main()
